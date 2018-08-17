@@ -7,13 +7,13 @@
 # @mail 331313869@qq.com
 
 #config
-php-fpm=/usr/local/php-7.2.4/sbin/php-fpm
-php-fpm_pid=/usr/local/php-7.2.4/var/run/php-fpm.pid
+php_fpm=/usr/local/php-7.2.4/sbin/php-fpm
+php_fpm_pid=/usr/local/php-7.2.4/var/run/php-fpm.pid
 
 pid=0
-if [ -f $php-fpm_pid ]
+if [ -f $php_fpm_pid ]
 then
-    pid=$(cat $php-fpm_pid)
+    pid=$(cat $php_fpm_pid)
 fi
 
 status() {
@@ -32,7 +32,7 @@ start() {
         echo "Php-fpm is running!"
     else
         echo "Starting php-fpm..."
-        `$php-fpm`
+        `$php_fpm`
     fi
 }
 
