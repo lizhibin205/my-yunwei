@@ -1,0 +1,74 @@
+#!/bin/bash
+#chkconfig:12345 80 05
+#description:Nginx Service
+# Nginx管理脚本
+# @author lizhibin
+# @date 2016-07-13
+# @mail 331313869@qq.com
+nginx=/usr/local/nginx_1.10.1/sbin/nginx
+nginx_pid=/usr/local/nginx_1.10.1/logs/nginx.pid
+status() {
+    if [ -f $nginx_pid ]
+    then
+        pid=$(cat $nginx_pid)
+        if [ $(ps --no-heading $pid | wc -l) = '1' ]
+        then
+            return 1
+        fi
+    fi
+    return 0
+}
+
+start() {
+    status
+    if [ $? -eq 1 ]
+    then
+        echo "Nginx is running!"
+    else
+        echo "Starting nginx..."
+        `$nginx`
+    fi
+}
+
+stop() {
+    status
+    if [ $? -eq 1 ]
+    then
+        echo "Stopping nginx..."
+        `$nginx -s stop`
+    else
+        echo "Nginx is not running!"
+    fi
+}
+
+reload() {
+    status
+    if [ $? -eq 1 ]
+    then
+        echo "Reloading nginx..."
+        `$nginx -s reload`
+    else
+        echo "Nginx is not running!"
+    fi
+}
+
+case "$1" in
+    start)
+        start
+    ;;
+    status)
+        status
+        echo status:$?
+    ;;
+    stop)
+        stop
+    ;;
+    reload)
+        reload
+    ;;
+    *)
+        echo $"Usage: nginx {start|stop|reload|status}"
+        RETVAL=2
+esac
+
+exit $RETVAL
