@@ -1,35 +1,38 @@
 #!/bin/bash
 #chkconfig:12345 80 05
-#description:Nginx Service
-# Nginx管理脚本
+#description:php-fpm Service
+# php-fpm管理脚本
 # @author lizhibin
-# @date 2016-07-13
+# @date 2018-08-17
 # @mail 331313869@qq.com
 
 #config
-nginx=/usr/local/nginx_1.10.1/sbin/nginx
-nginx_pid=/usr/local/nginx_1.10.1/logs/nginx.pid
+php-fpm=/usr/local/php-7.2.4/sbin/php-fpm
+php-fpm_pid=/usr/local/php-7.2.4/var/run/php-fpm.pid
+
+pid=0
+if [ -f $php-fpm_pid ]
+then
+    pid=$(cat $php-fpm_pid)
+fi
 
 status() {
-    if [ -f $nginx_pid ]
+    if [ $pid -gt 0 ]
     then
-        pid=$(cat $nginx_pid)
-        if [ $(ps --no-heading $pid | wc -l) = '1' ]
-        then
-            return 1
-        fi
+        return 1
+    else
+        return 0
     fi
-    return 0
 }
 
 start() {
     status
     if [ $? -gt 0 ]
     then
-        echo "Nginx is running!"
+        echo "Php-fpm is running!"
     else
-        echo "Starting nginx..."
-        `$nginx`
+        echo "Starting php-fpm..."
+        `$php-fpm`
     fi
 }
 
@@ -37,20 +40,20 @@ stop() {
     status
     if [ $? -gt 0 ]
     then
-        echo "Stopping nginx..."
-        `$nginx -s stop`
+        echo "Stopping php-fpm..."
+        `kill $pid`
     else
-        echo "Nginx is not running!"
+        echo "Php-fpm is not running!"
     fi
 }
 reload() {
     status
     if [ $? -eq 1 ]
     then
-        echo "Reloading nginx..."
-        `$nginx -s reload`
+        echo "Reloading php-fpm..."
+        `kill -USR2 $pid`
     else
-        echo "Nginx is not running!"
+        echo "Php-fpm is not running!"
     fi
 }
 
@@ -60,7 +63,7 @@ case "$1" in
     ;;
     status)
         status
-        echo nginx is running:$?
+        echo php-fpm is running:$?
     ;;
     stop)
         stop
@@ -69,7 +72,7 @@ case "$1" in
         reload
     ;;
     *)
-        echo $"Usage: nginx {start|stop|reload|status}"
+        echo $"Usage: php-fpm {start|stop|reload|status}"
         RETVAL=2
 esac
 
