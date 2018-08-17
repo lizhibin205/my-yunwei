@@ -14,8 +14,8 @@ nginx          	0:关闭	1:启用	2:启用	3:启用	4:启用	5:启用	6:关闭
 
 # add service
 
-chkconfig --add httpd        #增加httpd服务。
+chkconfig --add nginx        #增加nginx服务。
 
-chkconfig --del httpd        #删除httpd服务。
+chkconfig --del nginx        #删除nginx服务。
 
-chkconfig --level httpd 2345 on        #设置httpd在运行级别为2、3、4、5的情况下都是on（开启）的状态。
+chkconfig --level 2345 nginx on        #设置nginx在运行级别为2、3、4、5的情况下都是on（开启）的状态。
