@@ -1,0 +1,19 @@
+#write at http
+upstream elasticsearch {
+    server 127.0.0.1:9200 fail_timeout=5s;
+}
+
+
+server {
+    listen       80;
+    server_name  yourhost;
+    access_log off;
+    error_log /dev/null;
+
+    location / {
+       proxy_redirect  off;
+       proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+       proxy_set_header X-Real-IP $remote_addr;
+       proxy_pass http://elasticsearch;
+    }
+}
