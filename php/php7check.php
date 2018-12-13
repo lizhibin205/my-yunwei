@@ -1,4 +1,7 @@
 <?php
+/* 用于快速检查某个项目下代码是否有语法错误
+ * Usage: php php7check.php [codeDir]
+ */
 if (!isset($argv[1])) {
     exit("please input dir.");
 }
