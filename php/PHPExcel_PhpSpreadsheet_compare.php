@@ -1,4 +1,6 @@
 <?php
+//see
+//https://blog.csdn.net/loophome/article/details/85247831
 $data = '{"id":"73982","sequence":"1","warehouse":"VIP_NH","tsift":"1","time_tag":"2018122510","type":"2","floor":"0","layout":"0","is_fixed":"0","bind_id":"12233","group_id":"0","name":"\u697c\u5c42\u7ec4\u4ef6\u4f18\u5316","vbrand_sequence":"0"}';
 $data = json_decode($data, true);
 
